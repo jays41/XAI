@@ -98,3 +98,12 @@ class KMeans():
     for row in self.centroids:
       ret.append([float(x) for x in row])
     return ret
+  
+  def get_centroids(self):
+    ret = []
+    for row in self.centroids:
+      ret.append([float(x) for x in row])
+    return ret
+
+  def get_clusters(self):
+    return self.clusters
