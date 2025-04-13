@@ -1,0 +1,151 @@
+NodeID,ParentID,Path,Feature,Operator,Value,Regime,Description
+1,,Root,,,,,
+2,1,Root→Volatility,Volatility,>,3.0,,
+3,2,Root→Volatility→RSI,RSI,<,25,Crash,Extreme panic selling
+4,2,Root→Volatility→RSI,RSI,<,20,Flash Crash,Intraday collapse
+5,2,Root→Volatility→Volume,Volume,>,95th %ile,Margin Liquidation,Forced selling
+6,1,Root→RSI,RSI,>,80,,
+7,6,Root→RSI→Momentum,Momentum,>,1.5,Overbought Rally,Euphoric buying
+8,6,Root→RSI→Momentum,Momentum,>,2.0,Parabolic Advance,Vertical price rise
+9,6,Root→RSI→Divergence,MACD,Has Divergence,True,Blow-Off Top,Reversal imminent
+10,1,Root→MACD,MACD,<,-0.5,,
+11,10,Root→MACD→Return,Return,<,-0.05,Downtrend,Lower highs/lows
+12,10,Root→MACD→Return,Return,<,-0.15,Correction,Temporary pullback
+13,10,Root→MACD→Volume,Volume,<,50th %ile,Distribution,Smart money exit
+14,1,Root→Volume,Volume,>,90th %ile,,
+15,14,Root→Volume→RSI,RSI,<,30,Panic Sell-Off,High volume selling
+16,14,Root→Volume→RSI,RSI,>,70,Strong Bullish,High volume breakout
+17,14,Root→Volume→ShortInterest,ShortInterest,>,90th %ile,Short Squeeze,Forced buying
+18,1,Root→NeutralCheck,Volatility,<,0.5,,
+19,18,Root→NeutralCheck→RSI,RSI,45-55,,Neutral,No clear trend
+20,18,Root→NeutralCheck→Volatility,Volatility,<,0.3,Consolidation,Tight price range
+21,1,Root→SupportBreak,Price,Breaks,Support,,
+22,21,Root→SupportBreak→Volume,Volume,>,80th %ile,Bear Trap,False breakdown
+23,21,Root→SupportBreak→Volume,Volume,<,60th %ile,False Breakdown,Low conviction
+24,1,Root→ResistanceBreak,Price,Breaks,Resistance,,
+25,24,Root→ResistanceBreak→Volume,Volume,>,75th %ile,Bull Trap,False breakout
+26,24,Root→ResistanceBreak→Volume,Volume,<,50th %ile,False Breakout,Low conviction
+27,1,Root→OvernightGap,Open,Gap,>2%,,
+28,27,Root→OvernightGap→Volume,Volume,>,70th %ile,Gap Fill,High liquidity
+29,27,Root→OvernightGap→Volume,Volume,<,40th %ile,Gap and Go,Low liquidity
+30,1,Root→Streak,ReturnStreak,>=,3,,
+31,30,Root→Streak→Direction,Return,>,0,Bullish Streak,Sustained buying
+32,30,Root→Streak→Direction,Return,<,0,Bearish Streak,Sustained selling
+33,1,Root→CandlePattern,LastCandle,Is,Hammer,,
+34,33,Root→CandlePattern→Volume,Volume,>,70th %ile,Reversal Signal,High conviction
+35,1,Root→Seasonality,Month,==,Dec,Santa Rally,Year-end effect
+36,1,Root→Earnings,Event,==,Earnings,,
+37,36,Root→Earnings→IV,ImpliedVol,>,90th %ile,Earnings Volatility,Options priced for move
+38,1,Root→FED,Event,==,FOMC,,
+39,38,Root→FED→Direction,Rates,Up,Hawkish Shock,Negative reaction
+40,38,Root→FED→Direction,Rates,Down,Dovish Surprise,Positive reaction
+41,1,Root→Divergence,RSI,Diverges,Price,,
+42,41,Root→Divergence→Direction,Price,Down,Bullish Divergence,Potential reversal up
+43,41,Root→Divergence→Direction,Price,Up,Bearish Divergence,Potential reversal down
+44,1,Root→VWAP,Price,>,VWAP,,
+45,44,Root→VWAP→Slope,VWAP Slope,Up,Bullish VWAP,Institutional buying
+46,1,Root→Liquidation,OIChange,<,-10%,Liquidation Event,Forced positions closed
+47,1,Root→DarkPool,DarkPoolPrint,>,90th %ile,Block Accumulation,Smart money flow
+48,1,Root→Sentiment,Sentiment,>,90th %ile,Extreme Greed,Contrarian signal
+49,1,Root→VIX,VIX,>,30,High Fear,Market stress
+50,1,Root→VIX,VIX,<,15,Complacency,Low fear
+51,1,Root→YieldCurve,10Y-2Y,<,0,Inversion,Recession signal
+52,1,Root→VolumeProfile,VolumeNode,==,High,High Volume Node,Key price level
+53,1,Root→Fibonacci,Price,==,61.8%,Fib Retracement,Potential reversal
+54,1,Root→OpenInterest,OI,>,90th %ile,Options Activity,Gamma exposure
+55,1,Root→ETFFlow,Flow,>,90th %ile,ETF Buying,Institutional demand
+56,1,Root→ETFFlow,Flow,<,-90th %ile,ETF Selling,Institutional exit
+57,1,Root→MemeStock,SocialVolume,>,90th %ile,Meme Rally,Retail frenzy
+58,1,Root→DeMark,TDSeq,==,9,Exhaustion Signal,Potential reversal
+59,1,Root→GEX,GammaExposure,>,90th %ile,Gamma Squeeze,Dealer hedging
+60,1,Root→GEX,GammaExposure,<,-90th %ile,Gamma Crush,Accelerated selling
+61,1,Root→Liquidity,Liquidity,<,10th %ile,Illiquidity Gap,Price dislocation risk
+62,1,Root→Liquidity,Liquidity,>,90th %ile,High Liquidity,Stable price action
+63,1,Root→HFTActivity,HFTVolume,>,70th %ile,Algo Domination,Short-term noise
+64,1,Root→HFTActivity,HFTVolume,<,30th %ile,Human Trading,More sustainable moves
+65,1,Root→Basis,FuturesBasis,>,1%,Backwardation,Short-term demand
+66,1,Root→Basis,FuturesBasis,<,-1%,Contango,Long-term holding
+67,1,Root→FundingRate,Funding,>,0.1%,Longs Paying,Overcrowded
+68,1,Root→FundingRate,Funding,<,-0.1%,Shorts Paying,Overcrowded
+69,1,Root→WhaleFlow,WhaleTrades,>,90th %ile,Whale Activity,Big player moves
+70,1,Root→WhaleFlow,WhaleTrades,<,10th %ile,Retail Only,Weak hands
+71,1,Root→Orderbook,BidAskRatio,>,2,Bid Wall,Support forming
+72,1,Root→Orderbook,BidAskRatio,<,0.5,Ask Wall,Resistance forming
+73,1,Root→Orderbook,OrderbookImbalance,>,90th %ile,Imbalance Upside,Momentum building
+74,1,Root→Orderbook,OrderbookImbalance,<,-90th %ile,Imbalance Downside,Momentum building
+75,1,Root→TakerFlow,TakerBuySellRatio,>,1.5,Buying Pressure,Strong demand
+76,1,Root→TakerFlow,TakerBuySellRatio,<,0.67,Selling Pressure,Strong supply
+77,1,Root→Leverage,LeverageRatio,>,90th %ile,Overleveraged,Liquidation risk
+78,1,Root→Leverage,LeverageRatio,<,10th %ile,Underleveraged,Low risk
+79,1,Root→Stablecoin,StablecoinSupply,>,90th %ile,Dry Powder,Buying potential
+80,1,Root→Stablecoin,StablecoinSupply,<,10th %ile,Low Ammo,Selling exhaustion
+81,1,Root→ExchangeFlow,Netflow,>,90th %ile,Exchange Inflows,Selling pressure
+82,1,Root→ExchangeFlow,Netflow,<,-90th %ile,Exchange Outflows,Holding/Buying
+83,1,Root→FuturesOI,FuturesOI,>,90th %ile,Speculative Excess,Reversal risk
+84,1,Root→FuturesOI,FuturesOI,<,10th %ile,Low Speculation,No fuel
+85,1,Root→OptionsSkew,Skew,>,90th %ile,Put Buying,Hedging demand
+86,1,Root→OptionsSkew,Skew,<,-90th %ile,Call Buying,Speculative demand
+87,1,Root→TermStructure,TermStructure,==,Flat,No Expectations,Neutral
+88,1,Root→TermStructure,TermStructure,==,Steep,Strong Expectations,Trending
+89,1,Root→TermStructure,TermStructure,==,Inverted,Recession Fear,Defensive
+90,1,Root→Correlation,AssetCorrelation,>,0.9,Risk On/Off,Macro driven
+91,1,Root→Correlation,AssetCorrelation,<,0.1,Idiosyncratic,Stock specific
+92,1,Root→Beta,Beta,>,1.5,High Beta,Volatile
+93,1,Root→Beta,Beta,<,0.5,Low Beta,Stable
+94,1,Root→VolumeClusters,VolumeCluster,==,High,Volume Pocket,Key level
+95,1,Root→VolumeClusters,VolumeCluster,==,Low,Low Volume Node,Fragile level
+96,1,Root→Time,TimeOfDay,==,Open,Open Drive,Initial volatility
+97,1,Root→Time,TimeOfDay,==,Close,Close Auction,Final price setting
+98,1,Root→Time,DayOfWeek,==,Friday,Weekend Effect,Hedging
+99,1,Root→Time,DayOfMonth,==,15-17,Options Expiry,Gamma pinning
+100,1,Root→Time,Month,==,January,January Effect,Seasonal inflow
+101,1,Root→SentimentExtreme,Sentiment,==,AllTimeHigh,Extreme Euphoria,Contrarian short
+102,1,Root→SentimentExtreme,Sentiment,==,AllTimeLow,Extreme Fear,Contrarian buy
+103,1,Root→CTAPositioning,CTALongExposure,>,90th %ile,CTA Buying,Trend following
+104,1,Root→CTAPositioning,CTAShortExposure,>,90th %ile,CTA Selling,Trend following
+105,1,Root→RiskReversal,25ΔRR,>,90th %ile,Skewed Calls,Bullish bets
+106,1,Root→RiskReversal,25ΔRR,<,-90th %ile,Skewed Puts,Bearish bets
+107,1,Root→FFRProbabilities,RateCutProb,>,70%,Dovish Pivot,Anticipated easing
+108,1,Root→FFRProbabilities,RateHikeProb,>,70%,Hawkish Shock,Anticipated tightening
+109,1,Root→VIXTermStructure,VIX_3M-VIX,>,5,Contango Fear,Long-term worry
+110,1,Root→DealerGamma,GammaExposure,>,90th %ile,Dealer Hedging,Mechanical support
+111,1,Root→DealerGamma,GammaExposure,<,-90th %ile,Dealer Selling,Mechanical resistance
+112,1,Root→BitcoinHalving,DaysSinceHalving,<,365,Post-Halving Rally,Supply shock boost
+113,1,Root→StocksBeta,SPXCorrelation,>,0.8,Macro-Driven,Follows SPX
+114,1,Root→StocksBeta,SPXCorrelation,<,0.2,Decoupled,Idiosyncratic
+115,1,Root→Inflation,CPI_YoY,>,5%,Inflation Shock,Value stocks outperform
+116,1,Root→RetailFlow,RetailBuyRatio,>,90th %ile,Meme Rally,Social media driven
+117,1,Root→StablecoinPremium,USDTpremium,>,2%,Fiat Onramp Surge,Retail buying
+118,1,Root→StablecoinPremium,USDTpremium,<,-2%,Fiat Offramp,Retail selling
+119,1,Root→BuybackWindow,BuybackSignal,==,Active,Corporate Support
+120,1,Root→QT,QTAmount,>,1%GDP,Liquidity Drain,Systemic selling
+121,1,Root→EarningsSeason,EarningsDensity,>,70%,Earnings Volatility,Single-stock risk
+122,1,Root→MonthEnd,PensionFlow,==,Positive,Month-End Rebalancing
+123,1,Root→ML→Clustering,ClusterLabel,==,12,ML-Detected Regime 12,Anomaly pattern
+124,1,Root→QuadWitching,Event,==,True,Gamma Unpin,Increased volatility
+125,1,Root→Crypto→Hack,HackAmount,>,100M,Security Crisis,Sell-off
+126,1,Root→Crypto→Regulation,RegNewsSentiment,<,-0.5,Regulatory Fear,Sector-wide pressure
+127,1,Root→Equities→Buybacks,BuybackYield,>,3%,Share Reduction,Price support
+128,1,Root→Commodities→Contango,Contango%,>,5%,Storage Play,Physical oversupply
+129,1,Root→Commodities→Backwardation,Backwardation%,>,5%,Supply Crunch,Physical shortage
+130,1,Root→FX→DXY,DXYChange,>,1%,USD Strength,Emerging markets weak
+131,1,Root→FX→DXY,DXYChange,<,-1%,USD Weakness,Emerging markets strong
+132,1,Root→Bonds→CreditSpreads,Spreads,>,200bp,Risk Off,Flight to quality
+133,1,Root→Bonds→CreditSpreads,Spreads,<,100bp,Risk On,Yield seeking
+134,1,Root→Crypto→MinerFlow,MinerSelling,>,90th %ile,Miner Capitulation,Selling pressure
+135,1,Root→Crypto→MinerFlow,MinerSelling,<,10th %ile,Miner Holding,Reduced supply
+136,1,Root→Equities→ShortBan,ShortBanActive,==,True,Short Squeeze Risk,Forced covering
+137,1,Root→Macro→Geopolitical,GeopoliticalRisk,>,90th %ile,Safe Haven Flow,Gold/Bonds up
+138,1,Root→Macro→Pandemic,PandemicSeverity,>,90th %ile,COVID-Style Shock,Liquidity crunch
+139,1,Root→Options→ZeroDTE,ZeroDTEVolume,>,90th %ile,Gamma Amplification,Intraday swings
+140,1,Root→Options→ZeroDTE,ZeroDTEVolume,<,10th %ile,Low Gamma,Stable price action
+141,1,Root→Crypto→Staking,StakingYield,>,10%,Yield Farming,Inorganic demand
+142,1,Root→Crypto→Staking,StakingYield,<,5%,Yield Drought,Reduced incentives
+143,1,Root→Equities→SectorRot,SectorMomentum,>,90th %ile,Sector Rotation,Leadership change
+144,1,Root→Equities→SectorRot,SectorMomentum,<,-90th %ile,Sector Exodus,Leadership collapse
+145,1,Root→Commodities→ChinaGDP,ChinaGDPYoY,<,4%,Commodity Weakness,Demand drop
+146,1,Root→Commodities→ChinaGDP,ChinaGDPYoY,>,6%,Commodity Strength,Demand surge
+147,1,Root→Macro→DebtCeiling,DebtCeilingRisk,>,70%,Default Fear,Risk-off
+148,1,Root→Macro→DebtCeiling,DebtCeilingRisk,<,30%,Resolution Rally,Relief bounce
+149,1,Root→Crypto→NFT,NFTVolume,>,90th %ile,NFT Mania,Speculative frenzy
+150,1,Root→Crypto→NFT,NFTVolume,<,10th %ile,NFT Winter,Loss of interest
