@@ -11,10 +11,12 @@ class KMeans():
     self.max_iterations = 1000
 
   def initialise(self):
-    min_value = self.data.iloc[:, 0].min()
-    max_value = self.data.iloc[:, 0].max()
-    self.centroids = np.linspace(min_value, max_value, self.num_clusters)
-    self.centroids = np.array([[x] + [0]*(self.num_features-1) for x in self.centroids])
+    self.centroids = [self.data.sample(1).values.flatten()]
+    for _ in range(1, self.num_clusters):
+      distances = np.array([np.min([np.linalg.norm(x - c) for c in self.centroids]) for x in self.data.values])
+      probabilities = distances ** 2 / np.sum(distances ** 2)
+      next_centroid = self.data.iloc[np.random.choice(len(self.data), p=probabilities)].values
+      self.centroids.append(next_centroid)
     self.clusters = np.zeros(len(self.data))
 
   def calculate_distance(self, point, centroid):
