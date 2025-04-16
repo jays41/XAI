@@ -1,0 +1,83 @@
+Node,Parent,Feature,Condition,Children,Scenario
+0,-1,Momentum,> 5,1|2,Uptrend Candidates
+1,0,MACD,> 0,3|4|5|6|67|68,Strong Uptrend
+2,0,MACD,<= 0,7|8,Retracement or Weakening
+3,1,RSI,> 80 and Volume < 50th %ile,28|29,Parabolic Top
+4,1,RSI,> 65 and Volatility < 25th %ile,30|31,Overextended Bull
+5,1,RSI,30 to 65,32|33|34,Sustained Bull Trend
+6,1,RSI,< 30,35|36,Oversold Reversal (Unusual Uptrend)
+7,2,RSI,> 65,37|38,Bearish Divergence (Weakening Top)
+8,2,RSI,<= 65,39|40,Retracement Rally
+9,-1,Momentum,< -10,10|11,Downtrend Candidates
+10,9,MACD,< 0,12|13|14|15|69|70|71,Strong Downtrend
+11,9,MACD,>= 0,16|17,Bear Market Rally
+12,10,RSI,< 15 and Volume > 90th %ile,41|42,Capitulation
+13,10,RSI,< 30 and Volatility > 75th %ile,43|44,Panic Selloff
+14,10,RSI,< 30 and Volatility < 25th %ile,45|46,Controlled Decline
+15,10,RSI,30 to 65,47|48|49,Slow Downtrend
+16,11,RSI,< 30,50|51,Bullish Divergence (Recovery Signal)
+17,11,RSI,>= 30,52|53,Bear Market Rally
+18,-1,Momentum,-10 to 5,19|20|21,Sideways / Unclear
+19,18,RSI,< 30,22|23,Oversold Range
+20,18,RSI,> 65,24|54,Overbought Range
+21,18,RSI,30 to 65,25|26|27,Neutral Consolidation
+22,19,Volume,> 85th %ile,55|56,Accumulation Bottom
+23,19,Volume,< 15th %ile,57|58,Illiquid Decline
+24,20,Volatility,> 75th %ile,59|60,Distribution Top
+25,21,Volatility,< 25th %ile,61|62,Balanced Market
+26,21,Volatility,> 75th %ile,63|64,Choppy Range
+27,21,Volatility,25 to 75th %ile,65|66,Neutral Consolidation
+28,3,Volume,> 75th %ile,-,High Volume Top
+29,3,Volume,<= 75th %ile,-,Low Volume Exhaustion Top
+30,4,Volatility,< 10th %ile,-,Ultra-Low Volatility Bull
+31,4,Volatility,10 to 25th %ile,-,Low Volatility Bull
+32,5,Volume,> 75th %ile,-,High Volume Uptrend
+33,5,Volume,25 to 75th %ile,-,Normal Volume Uptrend
+34,5,Volume,< 25th %ile,-,Low Volume Uptrend (Caution)
+35,6,Momentum,> 0,-,Accelerating Reversal
+36,6,Momentum,<= 0,-,Tentative Reversal
+37,7,MACD,< -1,-,Momentum Loss at Top
+38,7,MACD,>= -1,-,Stalling Distribution
+39,8,Return,> 0,-,Short-Term Bounce
+40,8,Return,<= 0,-,Failed Bounce Attempt
+41,12,Volume,> 95th %ile,-,Extreme Panic Selling
+42,12,Volume,90 to 95th %ile,-,Heavy Capitulation
+43,13,Volatility,> 90th %ile,-,Crash Dynamics
+44,13,Volatility,75 to 90th %ile,-,High Fear Selloff
+45,14,RSI,< 20,-,Deep Oversold Decline
+46,14,RSI,20 to 30,-,Moderately Oversold Decline
+47,15,Volume,< 30th %ile,-,Exhaustion Downtrend
+48,15,Volume,> 70th %ile,-,Accelerating Downtrend
+49,15,Volume,30 to 70th %ile,-,Orderly Decline
+50,16,MACD,> -0.5,-,Strong Bullish Divergence
+51,16,MACD,<= -0.5,-,Early Recovery Signal
+52,17,Volume,> 75th %ile,-,Strong Bear Market Rally
+53,17,Volume,<= 75th %ile,-,Weak Bear Market Rally
+54,20,Volume,> 80th %ile,-,High Volume Overbought
+55,22,Return,> 0,-,Constructive Accumulation
+56,22,Return,<= 0,-,Early Accumulation Phase
+57,23,Volatility,> 50th %ile,-,Volatile Illiquid Decline
+58,23,Volatility,<= 50th %ile,-,Quiet Illiquid Decline
+59,24,Volume,> 60th %ile,-,Active Distribution Top
+60,24,Volume,<= 60th %ile,-,Fading Distribution
+61,25,Momentum,-2 to 2,-,Dead Market
+62,25,Momentum,< -2 or > 2,-,Minimal Direction
+63,26,Volume,> 85th %ile,-,Volatile High Volume Range
+64,26,Volume,<= 85th %ile,-,Volatile Low Volume Range
+65,27,MACD,-0.5 to 0.5,-,Potential Range Breakout
+66,27,MACD,< -0.5 or > 0.5,-,Continuing Consolidation
+67,1,RSI,> 65 and Volatility > 75th %ile,72|73,Volatile Bull Run
+68,1,RSI,> 75 and Volume > 85th %ile,74|75,Buyer Frenzy
+69,10,RSI,< 20 and Volatility > 60th %ile,76|77,Accelerating Downtrend
+70,10,RSI,> 40 and Volume < 40th %ile,78|79,Early Topping Process
+71,10,RSI,20 to 40 and MACD < -2,80|81,Strong Bearish Momentum
+72,67,Momentum,> 10,-,Parabolic Momentum Move
+73,67,Momentum,<= 10,-,Volatile Uptrend
+74,68,Return,> 5,-,Explosive Rally
+75,68,Return,<= 5,-,Strong Institutional Buying
+76,69,Volume,> 80th %ile,-,High Volume Breakdown
+77,69,Volume,<= 80th %ile,-,Momentum-Driven Decline
+78,70,Return,< -2,-,Distribution with Low Participation
+79,70,Return,>= -2,-,Early Distribution Phase
+80,71,Volume,> 60th %ile,-,Aggressive Selling
+81,71,Volume,<= 60th %ile,-,Technical Breakdown
