@@ -8,6 +8,7 @@ class KMeans():
     self.num_features = data.shape[1]
     self.centroids = None
     self.clusters = None
+    self.confidence_scores = []
     self.max_iterations = 1000
 
   def initialise(self):
@@ -18,6 +19,7 @@ class KMeans():
       next_centroid = self.data.iloc[np.random.choice(len(self.data), p=probabilities)].values
       self.centroids.append(next_centroid)
     self.clusters = np.zeros(len(self.data))
+    self.confidence_scores = np.zeros(len(self.data))
 
   def calculate_distance(self, point, centroid):
     total = 0
@@ -81,8 +83,21 @@ class KMeans():
     for i in range(len(self.data)):
       cohesion = self.get_cohesion(i)
       separation = self.get_separation(i)
-      score += (separation - cohesion) / max(cohesion, separation)
+      if cohesion != 0 and separation != 0:
+        current_score = (separation - cohesion) / max(cohesion, separation)
+        self.confidence_scores[i] = 100 * (current_score + 1) / 2
+        score += current_score
+      else:
+        self.silhouette_scores[i] = 0
     return score / len(self.data)
+
+  def get_confidence_per_cluster(self):
+    self.clusters = self.clusters.astype('int')
+    totals = np.bincount(self.clusters, weights=self.confidence_scores)
+    count_points = np.bincount(self.clusters)
+    average_confidence = np.divide(totals, count_points, where=(count_points != 0))
+    confidences = {i: val for i, val in enumerate(average_confidence)}
+    return confidences
 
   def run(self):
     self.initialise()
@@ -95,12 +110,7 @@ class KMeans():
         break
       prev_centroids = np.copy(self.centroids)
       i += 1
-    
-    ret = []
-    for row in self.centroids:
-      ret.append([float(x) for x in row])
-    return ret
-  
+
   def get_centroids(self):
     ret = []
     for row in self.centroids:
