@@ -33,7 +33,10 @@ def calculate_momentum(data, n=10):
   return data['Close'] - data['Close'].shift(n)
 
 # MAIN
-df = yf.download("SPY", start="2014-11-01", end="2019-01-01")
+labels = ['RSI', 'MACD', 'Volatility', 'Volume', 'Return', 'Momentum']
+
+df = yf.download("SPY", start="2014-11-01", end="2019-01-01", group_by='column')
+df.columns = df.columns.get_level_values(0)
 
 df['RSI'] = calculate_rsi(df)
 df['MACD'] = calculate_macd(df)
