@@ -1,6 +1,28 @@
 import pandas as pd
 import numpy as np
 import yfinance as yf
+from KMeans import KMeans
+
+def standardise_data(df):
+  means = df.mean()
+  stds = df.std()
+  standardised_df = (df - means) / stds
+
+  return standardised_df
+
+def standardise_point(point, df):
+  means = df[labels].mean().to_numpy()
+  stds = df[labels].std().to_numpy()
+  point = np.asarray(point)
+  standardised = (point - means) / stds
+  return standardised.tolist()
+
+def unstandardise_point(point, df):
+  means = df[labels].mean().to_numpy()
+  stds = df[labels].std().to_numpy()
+  point = np.asarray(point)
+
+  return (point * stds + means).tolist()
 
 def calculate_rsi(data, window=14):
   delta = data['Close'].diff()
@@ -45,3 +67,12 @@ df['Return'] = calculate_returns(df)
 df['Momentum'] = calculate_momentum(df)
 
 df = df[df.index >= "2015-01-01"] # to remove any NaN values caused by rolling window indicators
+
+# Get clusters
+s_data = standardise_data(df[labels])
+km = KMeans(6, s_data)
+km.run()
+centroids = km.get_centroids()
+clusters = km.get_clusters()
+
+df['Cluster'] = clusters
