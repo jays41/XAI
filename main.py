@@ -76,3 +76,11 @@ centroids = km.get_centroids()
 clusters = km.get_clusters()
 
 df['Cluster'] = clusters
+
+# Output centroids of clutsers
+for i in range(len(centroids)):
+  print(f"Cluster {i+1}:")
+  centroid = unstandardise_point(centroids[i], df)
+  for x, y in zip(labels, centroid):
+    print(f"{x}: {y:.2f}")
+  print()
