@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import copy
 
 class KMeans():
   def __init__(self, n, data):
@@ -16,25 +17,18 @@ class KMeans():
     for _ in range(1, self.num_clusters):
       distances = np.array([np.min([np.linalg.norm(x - c) for c in self.centroids]) for x in self.data.values])
       probabilities = distances ** 2 / np.sum(distances ** 2)
-      next_centroid = self.data.iloc[np.random.choice(len(self.data), p=probabilities)].values
+      next_centroid = self.data.iloc[np.random.choice(len(self.data), p=probabilities)].values.flatten()
       self.centroids.append(next_centroid)
     self.clusters = np.zeros(len(self.data))
     self.confidence_scores = np.zeros(len(self.data))
 
   def calculate_distance(self, point, centroid):
-    total = 0
-    for i, j in zip(point, centroid):
-      total += (i - j) ** 2
-    return total ** 0.5
+    return np.sqrt(np.sum((point - centroid) ** 2))
 
   def assign_clusters(self):
-    for i in range(len(self.data)):
-      values = self.data.iloc[i].values
-      distances = []
-      for centroid in self.centroids:
-        distances.append(self.calculate_distance(values, centroid))
-      min_index = distances.index(min(distances))
-      self.clusters[i] = min_index
+    for i, row in enumerate(self.data.values):
+      distances = [self.calculate_distance(row, centroid) for centroid in self.centroids]
+      self.clusters[i] = np.argmin(distances)
 
   def calculate_centroids(self):
     for i in range(self.num_clusters):
@@ -48,34 +42,36 @@ class KMeans():
     sse = 0
     for i in range(self.num_clusters):
       cluster_data = self.data[self.clusters == i]
-      if len(cluster_data) > 0:
-        for point in cluster_data.values:
-          sse += self.calculate_distance(point, self.centroids[i]) ** 2
+      for point in cluster_data.values:
+        sse += self.calculate_distance(point, self.centroids[i]) ** 2
     return sse
 
   def get_cohesion(self, i):
     # Cohesion: The average distance between a point and all other points in the same cluster.
     values = self.data.iloc[i].values
     cluster_data = self.data[self.clusters == self.clusters[i]]
-    total = 0
-    for point in cluster_data.values:
-      total += self.calculate_distance(point, values)
+    if len(cluster_data) == 0:
+      return 0
+    total = sum(self.calculate_distance(point, values) for point in cluster_data.values)
     return total / len(cluster_data)
 
   def get_separation(self, i):
     # Separation: The average distance between a point and all points in the nearest different cluster.
     values = self.data.iloc[i].values
-    distances = []
+    own_cluster = int(self.clusters[i])
+    min_dist = float('inf')
+    nearest_cluster = None
     for j in range(self.num_clusters):
-      if j == self.clusters[i]:
+      if j == own_cluster:
         continue
-      distances.append(self.calculate_distance(values, self.centroids[j]))
-    cluster_index = distances.index(min(distances))
-
-    cluster_data = self.data[self.clusters == cluster_index]
-    total = 0
-    for point in cluster_data.values:
-      total += self.calculate_distance(point, values)
+      dist = self.calculate_distance(values, self.centroids[j])
+      if dist < min_dist:
+        min_dist = dist
+        nearest_cluster = j
+    cluster_data = self.data[self.clusters == nearest_cluster]
+    if len(cluster_data) == 0:
+      return 0
+    total = sum(self.calculate_distance(point, values) for point in cluster_data.values)
     return total / len(cluster_data)
 
   def get_silhouette_score(self):
@@ -88,7 +84,7 @@ class KMeans():
         self.confidence_scores[i] = 100 * (current_score + 1) / 2
         score += current_score
       else:
-        self.silhouette_scores[i] = 0
+        self.confidence_scores[i] = 0
     return score / len(self.data)
 
   def get_confidence_per_cluster(self):
@@ -96,26 +92,20 @@ class KMeans():
     totals = np.bincount(self.clusters, weights=self.confidence_scores)
     count_points = np.bincount(self.clusters)
     average_confidence = np.divide(totals, count_points, where=(count_points != 0))
-    confidences = {i: val for i, val in enumerate(average_confidence)}
-    return confidences
+    return {i: val for i, val in enumerate(average_confidence)}
 
   def run(self):
     self.initialise()
-    prev_centroids = self.centroids
-    i = 0
-    while i < self.max_iterations:
+    prev_centroids = copy.deepcopy(self.centroids)
+    for _ in range(self.max_iterations):
       self.assign_clusters()
       self.calculate_centroids()
-      if np.array_equal(self.centroids, prev_centroids):
+      if all(np.allclose(c1, c2) for c1, c2 in zip(self.centroids, prev_centroids)):
         break
-      prev_centroids = np.copy(self.centroids)
-      i += 1
+      prev_centroids = copy.deepcopy(self.centroids)
 
   def get_centroids(self):
-    ret = []
-    for row in self.centroids:
-      ret.append([float(x) for x in row])
-    return ret
+    return [centroid.tolist() for centroid in self.centroids]
 
   def get_clusters(self):
     return self.clusters
