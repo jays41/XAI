@@ -12,12 +12,14 @@ def fetch_parse_data(startDate="2014-11-01", endDate="2019-01-01"):
         df = yf.download("SPY", start=startDate, end=endDate, group_by='column')
     
     except:
-        print("Failed to download data from yfinance")
-        df = pd.read_csv("data.csv")
-    
+        pass
     
     if df.empty:
-        df = pd.read_csv("data.csv")
+        print("Failed to download data from yfinance, using saved data")
+        df = pd.read_csv("data.csv", index_col=0)
+    else:
+        print("Successfully downloaded data")
+    
     
     df.columns = df.columns.get_level_values(0)
 
@@ -28,5 +30,4 @@ def fetch_parse_data(startDate="2014-11-01", endDate="2019-01-01"):
     df['Momentum'] = calculate_momentum(df)
 
     df = df[df.index >= "2015-01-01"] # to remove any NaN values caused by rolling window indicators
-    
     return df
