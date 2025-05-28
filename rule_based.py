@@ -69,7 +69,6 @@ def meets_condition(point, feature, condition):
 
 def classify(point):
   point = np.asarray(point)
-
   tree = pd.read_csv("rules.csv")
   tree.set_index("Node", inplace=True)
 
@@ -148,6 +147,7 @@ km = KMeans(6, s_data)
 km.run()
 centroids = km.get_centroids()
 clusters = km.get_clusters()
+df['Cluster'] = clusters
 
 # Define percentiles every 5% from 5 to 95
 percentile_values = np.arange(5, 100, 5)
@@ -160,11 +160,12 @@ percentiles = {
 
 confidence_scores = get_confidence_scores()
 
-# x = [unstandardise_point(centroid, df) for centroid in centroids]
-# res = []
-# for c in x:
-#   print(c)
-#   ret, path = classify(c)
-#   print(ret, path)
-#   res.append([i, c, ret])
-#   print("---------------")
+i = 0
+x = [unstandardise_point(centroid, df) for centroid in centroids]
+res = []
+for c in x:
+  print(c)
+  ret, path = classify(c)
+  print(ret, path)
+  res.append([i, c, ret])
+  print("---------------")
