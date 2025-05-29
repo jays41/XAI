@@ -77,7 +77,7 @@ def explain(date, cluster_labels, centroids, normalised_values):
     dist = dist ** 0.5
     print(f"Distance from centroid '{cluster_labels[i]}': {dist:.2f}")
 
-  # find one change that would move this point into the adjacent clusters
+  # find one change that would move this point into an adjacent cluster
   if cluster_index != len(centroids) - 1:
     print(f"In order to move up to the next centroid ({cluster_labels[cluster_index + 1]}):")
     print("Standardised point:", standardise_point(df[labels].loc[date], df))
