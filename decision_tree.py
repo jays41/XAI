@@ -25,6 +25,12 @@ class Leaf:
 
   def __str__(self):
     return f"Leaf: {self.label}, Counts: {self.counts}"
+  
+  def prediction(self):
+    return self.label
+  
+  def isLeaf(self):
+    return True
 
 class Node:
   def __init__(self, feature, threshold, left, right, counts):
@@ -36,6 +42,9 @@ class Node:
 
   def __str__(self):
     return f"Node: Feature -> {self.feature}, Threshold -> {self.threshold}, Counts: {self.counts}"
+  
+  def isLeaf(self):
+    return False
 
 class DecisionTree:
   def __init__(self, max_depth=float('inf')):
@@ -137,6 +146,18 @@ class DecisionTree:
       return "Call the method train() before output()"
     
     return self.print_tree(self.root)
+  
+  def predict(self, sample):
+    node = self.root
+    path = []
+    while True:
+      path.append(node)
+      if node.isLeaf():
+        return node.prediction(), path
+      elif sample[node.feature] <= node.threshold:
+        node = node.left
+      else:
+        node = node.right
 
 
 # MAIN
@@ -148,3 +169,5 @@ df = parse_data(df, threshold, n_days)
 dt = DecisionTree()
 dt.train(df)
 dt.output()
+
+print(dt.predict(df.iloc[0])[0])
