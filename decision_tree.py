@@ -168,6 +168,26 @@ df = parse_data(df, threshold, n_days)
 
 dt = DecisionTree()
 dt.train(df)
-dt.output()
+# dt.output()
 
 print(dt.predict(df.iloc[0])[0])
+
+sample_df = fetch_parse_data(startDate="2021-11-01", endDate="2025-01-01")
+sample_df = sample_df[sample_df.index >= "2022-01-01"]
+sample_df = parse_data(sample_df, threshold, n_days)
+
+correct = 0
+incorrect = 0
+print(sample_df)
+for i in range(len(sample_df)):
+  row = sample_df.iloc[i]
+  if dt.predict(row)[0] == row["n_day_return"]:
+    correct += 1
+  else:
+    incorrect += 1
+
+print(f"Correct: {correct}")
+print(f"Incorrect: {incorrect}")
+print(f"Percentage correct: {100 if incorrect == 0 else 100 * correct / (correct + incorrect)}%")
+
+# Need to test this fully
