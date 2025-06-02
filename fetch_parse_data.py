@@ -6,20 +6,13 @@ import time
 from indicators import *
 
 
-def fetch_parse_data(startDate="2014-11-01", endDate="2019-01-01"):
+def fetch_parse_data(sample=False):
     labels = ['RSI', 'MACD', 'Volatility', 'Volume', 'Return', 'Momentum']
-    try:
-        df = yf.download("SPY", start=startDate, end=endDate, group_by='column')
-    
-    except:
-        pass
-    
-    if df.empty:
-        print("Failed to download data from yfinance, using saved data")
+    if not sample:
         df = pd.read_csv("data.csv", index_col=0)
     else:
-        print("Successfully downloaded data")
-    
+        df = pd.read_csv("sample_data.csv", index_col=0)
+        return df
     
     df.columns = df.columns.get_level_values(0)
 
@@ -30,4 +23,5 @@ def fetch_parse_data(startDate="2014-11-01", endDate="2019-01-01"):
     df['Momentum'] = calculate_momentum(df)
 
     df = df[df.index >= "2015-01-01"] # to remove any NaN values caused by rolling window indicators
+
     return df
