@@ -172,8 +172,7 @@ dt.train(df)
 
 print(dt.predict(df.iloc[0])[0])
 
-sample_df = fetch_parse_data(startDate="2021-11-01", endDate="2025-01-01")
-sample_df = sample_df[sample_df.index >= "2022-01-01"]
+sample_df = fetch_parse_data(sample=True)
 sample_df = parse_data(sample_df, threshold, n_days)
 
 correct = 0
@@ -188,6 +187,4 @@ for i in range(len(sample_df)):
 
 print(f"Correct: {correct}")
 print(f"Incorrect: {incorrect}")
-print(f"Percentage correct: {100 if incorrect == 0 else 100 * correct / (correct + incorrect)}%")
-
-# Need to test this fully
+print(f"Percentage correct: {100 if incorrect == 0 else 100 * (correct / (correct + incorrect)):.2f}%")
