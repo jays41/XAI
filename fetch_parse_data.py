@@ -8,11 +8,11 @@ from indicators import *
 
 def fetch_parse_data(sample=False):
     labels = ['RSI', 'MACD', 'Volatility', 'Volume', 'Return', 'Momentum']
-    if not sample:
-        df = pd.read_csv("data.csv", index_col=0)
-    else:
+    if sample:
         df = pd.read_csv("sample_data.csv", index_col=0)
         return df
+    
+    df = pd.read_csv("data.csv", index_col=0)
     
     df.columns = df.columns.get_level_values(0)
 
