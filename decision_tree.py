@@ -165,7 +165,7 @@ df = fetch_parse_data()
 threshold = 0.003
 
 
-for n_days in range(1, 5):
+for n_days in range(1, 10):
   print(f"For n = {n_days}")
 
   df = parse_data(df, threshold, n_days)
@@ -180,7 +180,7 @@ for n_days in range(1, 5):
 
   correct = 0
   incorrect = 0
-  print(sample_df)
+  # print(sample_df)
   for i in range(len(sample_df)):
     row = sample_df.iloc[i]
     if dt.predict(row)[0] == row["n_day_return"]:
