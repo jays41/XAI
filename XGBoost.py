@@ -83,7 +83,11 @@ def build_tree(feature_matrix, gradients, hessians, cur_depth, max_depth, min_sa
         
         if best_gain == float('-inf'):
             value = leaf_score(gradients, hessians, l2_reg)
+            print("No valid split found. Converting to leaf")
             return Node(value=value)
+
+        if best_left_ids is None or best_right_ids is None:
+            return Node(value=leaf_score(gradients, hessians, l2_reg))
         
         left_features = [feature_matrix[i] for i in best_left_ids]
         right_features = [feature_matrix[i] for i in best_right_ids]
@@ -96,3 +100,23 @@ def build_tree(feature_matrix, gradients, hessians, cur_depth, max_depth, min_sa
         right_child = build_tree(right_features, right_gradients, right_hessians, cur_depth + 1, min_samples_split, l2_reg, gamma)
         
         return Node(feature_index=best_split_feature, threshold=best_split_threshold, left=left_child, right=right_child)
+
+def predict_single_sample(node, feature_vector):
+    if node.value is not None:
+        return node.value
+    
+    if feature_vector[node.feature_index] <= node.threshold:
+        return predict_single_sample(node.left, feature_vector)
+    else:
+        return predict_single_sample(node.right, feature_vector)
+
+def train_one_tree(feature_matrix, labels, cur_predictions, max_depth=3, min_samples_split=5, l2_reg=1.0, gamma=0.1):
+    gradients, hessians = compute_gradients_and_hessians(labels, cur_predictions)
+    tree = build_tree(feature_matrix, gradients, hessians, cur_depth=0, max_depth=max_depth, min_samples_split=min_samples_split, l2_reg=l2_reg, gamma=gamma)
+    return tree
+
+def predict(tree, feature_matrix):
+    return [predict_single_sample(tree, x) for x in feature_matrix]
+
+def update_predictions(prev_predictions, outputs, learning_rate):
+    return [prev + learning_rate * update for prev, update in zip(prev_predictions, outputs)]
