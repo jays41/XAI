@@ -51,7 +51,7 @@ def build_tree(feature_matrix, gradients, hessians, cur_depth, max_depth, min_sa
         value = leaf_score(gradients, hessians, l2_reg)
         return Node(value=value)
     
-    best_gain = float('inf')
+    best_gain = float('-inf')
     best_split_feature = None
     best_split_threshold = None
     best_left_ids = None
@@ -96,8 +96,8 @@ def build_tree(feature_matrix, gradients, hessians, cur_depth, max_depth, min_sa
         left_hessians = [hessians[i] for i in best_left_ids]
         right_hessians = [hessians[i] for i in best_right_ids]
         
-        left_child = build_tree(left_features, left_gradients, left_hessians, cur_depth + 1, min_samples_split, l2_reg, gamma)
-        right_child = build_tree(right_features, right_gradients, right_hessians, cur_depth + 1, min_samples_split, l2_reg, gamma)
+        left_child = build_tree(left_features, left_gradients, left_hessians, cur_depth + 1, max_depth, min_samples_split, l2_reg, gamma)
+        right_child = build_tree(right_features, right_gradients, right_hessians, cur_depth + 1, max_depth, min_samples_split, l2_reg, gamma)
         
         return Node(feature_index=best_split_feature, threshold=best_split_threshold, left=left_child, right=right_child)
 
