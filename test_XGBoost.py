@@ -124,3 +124,14 @@ if len(high_conf_preds) > 0:
     print(f"High-confidence accuracy: {high_conf_accuracy:.4f} ({100*high_conf_accuracy:.1f}%)")
 else:
     print("No high-confidence predictions found")
+
+print()
+
+# note that around 80% of the training data is neutral (as it is real data) which may impact predictions minority classes (up/down movements)
+
+print("CLASS IMBALANCE ANALYSIS:")
+print("-" * 30)
+train_dist = np.bincount(y_train)
+test_dist = np.bincount(y_test)
+print(f"Training distribution: Down={train_dist[0]}, Neutral={train_dist[1]}, Up={train_dist[2]}")
+print(f"Test distribution: Down={test_dist[0]}, Neutral={test_dist[1]}, Up={test_dist[2]}")
