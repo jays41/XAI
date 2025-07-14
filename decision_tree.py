@@ -162,8 +162,7 @@ class DecisionTree:
 
 # MAIN
 df = fetch_parse_data()
-threshold = 0.003
-
+threshold = 1
 
 for n_days in range(1, 10):
   print(f"For n = {n_days}")
@@ -171,16 +170,13 @@ for n_days in range(1, 10):
   df = parse_data(df, threshold, n_days)
   dt = DecisionTree()
   dt.train(df)
-  # dt.output()
-
-  # print(dt.predict(df.iloc[0])[0])
+  print("Trained tree")
 
   sample_df = fetch_parse_data(sample=True)
   sample_df = parse_data(sample_df, threshold, n_days)
-
+  
   correct = 0
   incorrect = 0
-  # print(sample_df)
   for i in range(len(sample_df)):
     row = sample_df.iloc[i]
     if dt.predict(row)[0] == row["n_day_return"]:
