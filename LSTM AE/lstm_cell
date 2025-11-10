@@ -1,0 +1,26 @@
+import numpy as np
+
+class LSTMCell:
+    def __init__(self):
+        pass
+
+    def sigmoid(self, x):
+        pass
+
+    def tanh(self, x):
+        pass
+
+    def forget_gate(self, x_t, h_prev):
+        pass
+
+    def input_gate(self, x_t, h_prev):
+        pass
+
+    def update_cell(self, f_t, i_t, c_tilde, c_prev):
+        pass
+
+    def output_gate(self, x_t, h_prev, c_t):
+        pass
+
+    def forward(self, x_t, h_prev, c_prev):
+        pass
